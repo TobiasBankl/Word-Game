@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Word Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        ul { list-style-type: square; }
+        input, button { padding: 8px; margin-top: 10px; }
+        .message { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Advanced Word Game: Find the Common Term</h1>
+    <p>Clues:</p>
+    <ul id="clues"></ul>
+
+    <label for="guess">Your guess:</label>
+    <input type="text" id="guess">
+    <button onclick="checkGuess()">Submit</button>
+
+    <div class="message" id="message"></div>
+
+    <script>
+        const clueSets = [
+            { clues: ["Orbit", "Rocket", "Satellite", "Launchpad", "Astronaut"], answer: "Space" },
+            { clues: ["Cell", "Gene", "Chromosome", "Mutation", "DNA"], answer: "Genetics" },
+            { clues: ["Canvas", "Brush", "Acrylic", "Gallery", "Exhibition"], answer: "Art" },
+            { clues: ["Algorithm", "Data", "Model", "Training", "Prediction"], answer: "Machine Learning" },
+            { clues: ["Court", "Serve", "Racket", "Net", "Match"], answer: "Tennis" },
+            { clues: ["Voltage", "Circuit", "Resistor", "Capacitor", "Current"], answer: "Electricity" },
+            { clues: ["Budget", "Revenue", "Expense", "Profit", "Forecast"], answer: "Finance" },
+            { clues: ["Keyboard", "Syntax", "Compiler", "Variable", "Loop"], answer: "Programming" },
+            { clues: ["Planet", "Crater", "Atmosphere", "Telescope", "Orbit"], answer: "Astronomy" },
+            { clues: ["Pixel", "Resolution", "Monitor", "Graphics", "Display"], answer: "Screen" }
+        ];
+
+        const selected = clueSets[Math.floor(Math.random() * clueSets.length)];
+        const clues = selected.clues;
+        const answer = selected.answer.toLowerCase();
+        let index = 0;
+        let solved = false;
+
+        function showClues() {
+            const list = document.getElementById("clues");
+            list.innerHTML = "";
+            for (let i = 0; i <= index && i < clues.length; i++) {
+                let li = document.createElement("li");
+                li.textContent = clues[i];
+                list.appendChild(li);
+            }
+        }
+
+        function checkGuess() {
+            if (solved || index >= clues.length) return;
+            const guess = document.getElementById("guess").value.trim().toLowerCase();
+            const message = document.getElementById("message");
+            if (guess === answer) {
+                message.textContent = "Correct! The common term is '" + selected.answer + "'.";
+                solved = true;
+            } else {
+                index++;
+                if (index >= clues.length) {
+                    message.textContent = "Incorrect. The correct answer was '" + selected.answer + "'.";
+                } else {
+                    message.textContent = "Incorrect. Try again.";
+                }
+                showClues();
+            }
+        }
+
+        showClues();
+    </script>
+</body>
+</html>
